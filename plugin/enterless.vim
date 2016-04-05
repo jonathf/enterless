@@ -20,5 +20,3 @@ if get(g:, 'enterless_hijack_netrw', 1)
       \ | exe 'Enterless %' | endif
   augroup END
 endif
-
-highlight! link EnterlessPathTail Directory

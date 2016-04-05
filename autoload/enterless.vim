@@ -106,6 +106,7 @@ function! s:buf_init() abort
   augroup END
 
   setlocal buftype=nofile noswapfile
+  setlocal ma
 
   command! -buffer -range -bar -nargs=* -complete=file Shdo call <SID>shdo(<line1>, <line2>, <q-args>)
 endfunction
