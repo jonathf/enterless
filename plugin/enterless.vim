@@ -127,13 +127,13 @@ function! enterless#clear()
 endfunction
 
 function! enterless#open(...) range abort
+  echom expand(a:1)
+  if isdirectory(expand(a:1))
+    call enterless#clear()
+  endif
   if a:0 == 1
     call dirvish#open(a:1)
   elseif a:0 == 2
     call dirvish#open(a:1, a:2)
-  endif
-  echo expand(a:1)
-  if isdirectory(expand(a:1))
-    call enterless#clear()
   endif
 endfunction
