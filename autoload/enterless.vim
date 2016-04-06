@@ -434,11 +434,13 @@ function! enterless#forward(char)
   setlocal shortmess+=s
   let s:path = substitute(expand("%"), '/', '\\/', 'g')
   let s:path = substitute(s:path, '\.', '\\.', 'g')
+
   try
     exec '/'.s:ignorecase.s:path.b:prevsearch
   catch
     echo "no such term"
     call enterless#clear()
+    return
   endtry
 
   let s:count = s:getcount()
@@ -448,32 +450,34 @@ function! enterless#forward(char)
         \g:enterless_autoenter)
     call enterless#open("edit", 0)
     return
-  endif
+  else
 
-  normal! my0"yy$
-  let s:baseline = exists('g:enterless_ignorecase') &&
-        \g:enterless_ignorecase ? tolower(getreg("y")) : getreg("y")
+    normal! my0"yy$
+    let s:baseline = exists('g:enterless_ignorecase') &&
+          \g:enterless_ignorecase ? tolower(getreg("y")) : getreg("y")
 
-  for s:row in range(line(".")+1, line(".")+s:count-1)
+    for s:row in range(line(".")+1, line(".")+s:count-1)
 
-      normal! j0"yy$
-      let s:proposal = tolower(getreg("y"))
-      
-      if len(s:baseline) < len(s:proposal)
-          let s:proposal = s:proposal[:len(s:baseline)-1]
-      endif
+        normal! j0"yy$
+        let s:proposal = tolower(getreg("y"))
+        
+        if len(s:baseline) < len(s:proposal)
+            let s:proposal = s:proposal[:len(s:baseline)-1]
+        endif
 
-      while s:baseline[:len(s:proposal)-1] != s:proposal
-          let s:proposal = s:proposal[:-2]
-      endwhile
-      let s:baseline = s:proposal
-  endfor
-  let s:baseline = substitute(s:baseline, '/', '\\/', 'g')
+        while s:baseline[:len(s:proposal)-1] != s:proposal
+            let s:proposal = s:proposal[:-2]
+        endwhile
+        let s:baseline = s:proposal
+    endfor
+    normal! 'y
+    let s:baseline = substitute(s:baseline, '/', '\\/', 'g')
 
-  if s:baseline != tolower(s:path.b:prevsearch)
-      let b:prevsearch = s:baseline[len(s:path):]
-      echo s:baseline[len(s:path):]
-      return
+    if s:baseline != tolower(s:path.b:prevsearch)
+        let b:prevsearch = s:baseline[len(s:path):]
+        echo s:baseline[len(s:path):]
+        exec 'syntax match EnterlessSearch "'.s:ignorecase.'\%'.s:n_path.'c'.b:prevsearch.'"'
+    endif
   endif
 
 endfunction
