@@ -132,6 +132,7 @@ function! enterless#open(...) range abort
   elseif a:0 == 2
     call dirvish#open(a:1, a:2)
   endif
+  echo expand(a:1)
   if isdirectory(expand(a:1))
     call enterless#clear()
   endif
