@@ -16,6 +16,7 @@ endfor
 nnoremap <nowait><buffer><silent> <plug>(enterless_back) :<C-U>-call enterless#backwards()<CR>
 nnoremap <nowait><buffer><silent> <plug>(enterless_open) :<C-U>.call enterless#open("edit", 0)<CR>
 nnoremap <nowait><buffer><silent> <plug>(enterless_reload) :Enterless %<CR>
+map <silent> <Plug>(enterless_quit) <plug>(dirvish_quit)
 
 if !get(g:, 'enterless_no_default_mapping', 0)
 
