@@ -24,7 +24,7 @@ let s:bindn = ["c"]
 "     let s:bindn = s:bindn+s:upper
 " endif
 for s:char in s:bindn
-    exec 'nmap <nowait><buffer><silent> '.s:char.'<plug>(enterless_'.s:char.')'
+    exec 'nmap <nowait><buffer><silent> '.s:char.' <plug>(enterless_'.s:char.')'
 endfor
 "
 " let s:bindi = []
