@@ -127,6 +127,7 @@ function! enterless#clear()
 endfunction
 
 function! enterless#open(...) range abort
+  enew
   echom expand(a:1).isdirectory(expand(a:1))
   if isdirectory(expand(a:1))
     call enterless#clear()
