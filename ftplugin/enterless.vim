@@ -13,7 +13,7 @@ for s:char in s:lower+s:upper+s:alpha+s:special
     exec 'nmap <nowait><buffer><silent> <plug>(enterless_'.s:char.') :<C-U>.call enterless#forward("'.s:char.'")<cr>'
 endfor
 
-" let s:bindn = []
+let s:bindn = ["c"]
 " if get(g:, 'enterless_bindn_lower', 1)
 "     let s:bindn = s:bindn+s:lower
 " endif
@@ -23,9 +23,9 @@ endfor
 " if get(g:, 'enterless_bindn_special', 1)
 "     let s:bindn = s:bindn+s:upper
 " endif
-" for s:char in s:bindn
-"     exec 'nmap <nowait><buffer><silent> '.s:char.'<plug>(enterless_'.s:char.')'
-" endfor
+for s:char in s:bindn
+    exec 'nmap <nowait><buffer><silent> '.s:char.'<plug>(enterless_'.s:char.')'
+endfor
 "
 " let s:bindi = []
 " if get(g:, 'enterless_bindi_lower', 1)
