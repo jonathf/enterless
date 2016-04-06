@@ -127,11 +127,7 @@ function! enterless#clear()
 endfunction
 
 function! enterless#open(...) range abort
-  enew
-  echom expand(a:1).isdirectory(expand(a:1))
-  if isdirectory(expand(a:1))
-    call enterless#clear()
-  endif
+  call enterless#clear()
   if a:0 == 1
     call dirvish#open(a:1)
   elseif a:0 == 2
