@@ -1,0 +1,147 @@
+*enterless.txt*	directory viewer
+
+==============================================================================
+OVERVIEW                                                             *enterless*
+
+Enterless is an extention to the minimalist filebrowser Dirvish. This modules
+requires that Dirvish is installed to function.
+
+Enterless' main feature is a forward search system that allows with a minimum
+of key presses to access any files on the filesystems.  It does so by
+completing any path as much as possible and automatically enters folders and
+files when unbiquitous.  For example, using default mappings,
+  :Enterless ~~
+will start the directory viewer and list files in you home folder. Lets assume
+that the following folders are pressent:
+  bar/
+  foo/
+  foobar/
+By pressing 'b', Enterless, will automatically enter the folder bar and list
+its content. This is because bar is the only folder starting with the letter
+b. If bar was a file, the file would instead be opened.
+
+If however 'f' is pressed, two things happens.
+1. The cursor jumps down to the first ouccurence of the file with prefix 'f'.
+2. Each filename starting with 'f' is highlighted.
+To enter the folder foo/, one could either press '/' to complete the path, or
+press <CR>. Equivalently for foobar/, one could press 'b' for completion or
+'<DOWN><CR>' for cursor move and enter.
+
+If more files and folders have partially common names that prohibits
+completion on two presses, this method works recursivly until only one name is
+selected.
+
+==============================================================================
+INSTALL                                                               *dirvish*
+
+Enterless is built upon Dirvish, so dirvish must be installed first.
+
+==============================================================================
+API                                                              *enterless-api*
+
+:Enterless                                                          *:Enterless*
+    Open the |current-directory|.
+
+:Enterless {path}
+    Open the directory at {path}, or its parent directory if {path} is a file.
+    To open the directory of the current file: >
+        :Enterless %
+
+
+==============================================================================
+MAPPINGS                                                    *enterless-mappings*
+
+Enterless provides these default buffer-local mappings and commands.
+
+    
+    <F12>           Quit Enterless and return to the original file.
+    <CR>            Open file.
+    <F2>            Reload folder
+    a-z.-_/         Search forward and enter fold/file if found
+    <BS>            Abort search forward. If no search is found, go to parent
+                    folder.
+    <C-d>           Delete current file/folder.
+    <C-r>           Rename current file/folder.
+    <C-e>           Execute current file as script.
+    <C-f>           Create a new folder.
+
+If default mappings isn't what you want, there are many options to redefined
+them. For searching forward mappings, see |enterless-options| for various
+unmappings.
+
+To redefine mappings, the following plugs are provided.
+
+    <plug>(enterless_backwards)     Cancel search or jump folder down (<BS>).
+    <plug>(enterless_open)          Open file (<CR>).
+    <plug>(enterless_quit)          Quit Enterless (<F12>).
+    <plug>(enterless_reload)        Reload folder (<F2>).
+    <plug>(enterless_deletefile)    Delete file (<C-d>).
+    <plug>(enterless_renamefile)    Rename file (<C-r>).
+    <plug>(enterless_executescript) Execute script (<C-e>).
+    <plug>(enterless_createfolder)  Create folder (<C-f>).
+
+In addition, each key 'a' through 'z', 'A' through 'Z', '0' through '9' and
+'.', '-', '_' and '/' has their own plug map:
+
+    <plug>(enterless_#)         Search forward, where '#' is replaced with the
+                                various keys
+
+
+==============================================================================
+OPTIONS                                                      *enterless-options*
+
+g:enterless_hide_hidden = 1                            *g:enterless_hide_hidden*
+
+    1: This will hide hidden files from views, unless the character search
+       forwards with |.| is evoked.
+
+g:enterless_ignorecase = 1                              *g:enterless_ignorecase*
+
+    1: Search forward will only ignore the case of the character searched for.
+
+g:enterless_autoenter = 1                                *g:enterless_autoenter*
+
+    1: If only one match is found in current search pattern, enter folder or
+       start editing file.
+
+g:enterless_bindi_lower = 0                            *g:enterless_bindn_lower*
+
+    1: Bind the characters 'a' through 'z' in insert mode to search forward.
+
+g:enterless_bindi_upper = 0                            *g:enterless_bindn_upper*
+
+    1: Bind the characters 'Z' through 'Z' in insert mode to search forward.
+
+g:enterless_bindi_digits = 0                          *g:enterless_bindn_digits*
+
+    1: Bind the characters '0' through '9' in insert mode to search forward.
+
+g:enterless_bindi_special = 0                        *g:enterless_bindn_special*
+
+    1: Bind the characters '_', '-', '.' and '/' in insert mode to search
+       forward.
+
+g:enterless_bindn_lower = 1                            *g:enterless_bindn_lower*
+
+    1: Bind the characters 'a' through 'z' in normal mode to search forward.
+
+g:enterless_bindn_upper = 0                            *g:enterless_bindn_upper*
+
+    1: Bind the characters 'Z' through 'Z' in normal mode to search forward.
+
+g:enterless_bindn_digits = 0                          *g:enterless_bindn_digits*
+
+    1: Bind the characters '0' through '9' in normal mode to search forward.
+
+g:enterless_bindn_special = 1                        *g:enterless_bindn_special*
+
+    1: Bind the characters '_', '-', '.' and '/' in normal mode to search
+       forward.
+
+g:enterless_unbind_all = 0                              *g:enterless_unbind_all*
+
+    1: Don't use any default mapping. For detailed control, use the plug
+       bindings.
+
+==============================================================================
+ vim:tw=78:ts=8:ft=help:norl:

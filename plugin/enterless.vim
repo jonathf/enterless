@@ -136,3 +136,73 @@ function! enterless#open(...) range abort
     call enterless#clear()
   endif
 endfunction
+
+
+function! enterless#deletefile()
+    call inputsave()
+    normal! 0"yy$
+
+    let path = substitute(getreg("y"), '\v[^\/]*[\/]?$', "" , "")
+    let name = getreg("y")[len(path):]
+
+    let choice = confirm("Are you sure you want to delete '".
+                \name."'?", "&Yes\n&No", 2)
+    call inputrestore()
+    if choice == 1
+        exec '!mv '. shellescape(path.name) . ' /tmp'
+        normal! dd
+    endif
+endfunction
+
+function! enterless#renamefile()
+    normal! 0"yy$mY
+
+    let path = substitute(getreg("y"), '\v[^\/]*[\/]?$', "" , "")
+    let name = getreg("y")[len(path):]
+
+    call inputsave()
+    let choice = input("Rename '".name."' :", "", "file")
+    call inputrestore()
+
+    if choice != ""
+        exec "!mv ". shellescape(path.name) ." ". shellescape(path.choice)
+    endif
+
+    call enterless#open("%", "")
+    normal! 'Y
+endfunction
+
+function! enterless#executescript()
+
+    normal! 0"yy$mY
+    let path = substitute(getreg("y"), '\v[^\/]*[\/]?$', "" , "")
+    let name = getreg("y")[len(path):]
+    call inputsave()
+    let s:choice = input("Execute '".name."' :", "", "file")
+    call inputrestore()
+
+    let s:choices = split(s:choice)
+    let s:args = ''
+    for s:choice in s:choices
+        let s:args = s:args ." ". shellescape(s:choice)
+    endfor
+    exec "!" .shellescape(path.name)." ". s:args
+    
+endfunction
+
+function! enterless#createfolder()
+    normal! 0"yy$mY
+
+    let path = substitute(getreg("y"), '\v[^\/]*[\/]?$', "" , "")
+
+    call inputsave()
+    let choice = input("Create folder :", "", "file")
+    call inputrestore()
+
+    if choice != ""
+        exec "!mkdir ". shellescape(path.choice)
+    endif
+
+    call enterless#open("%", "")
+    normal! 'Y
+endfunction
