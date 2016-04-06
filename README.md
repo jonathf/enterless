@@ -32,15 +32,15 @@ Each line is an absolute filepath (hidden by Vim's
   `:!mv <c-r><c-a> <c-r><c-a>foo`
     - Or add lines to the quickfix list (`:'<,'>caddb`) and iterate them
       (`:cdo`, `:cfdo`).
-- `:set ft=dirvish` works on any text you throw at it. Try this:
-  `git ls-files|vim +'setf dirvish' -`
+- `:set ft=enterless` works on any text you throw at it. Try this:
+  `git ls-files|vim +'setf enterless' -`
 
-Each Dirvish buffer name is the _actual directory name_, so commands and
+Each Enterless buffer name is the _actual directory name_, so commands and
 plugins (fugitive.vim) that work with `@%` and `@#` do the Right Thing.
 
 - Create directories with `:!mkdir %foo`.
 - Create files with `:e %foo.txt`
-- Enable fugitive: `autocmd FileType dirvish call fugitive#detect(@%)`
+- Enable fugitive: `autocmd FileType enterless call fugitive#detect(@%)`
 
 In addtion, Enterless adds its own search forward system for lightning fast
 file navigation.
