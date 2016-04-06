@@ -13,33 +13,33 @@ for s:char in s:lower+s:upper+s:alpha+s:special
     exec 'nmap <nowait><buffer><silent> <plug>(enterless_'.s:char.') :<C-U>.call enterless#forward("'.s:char.'")<cr>'
 endfor
 
-let s:bindn = []
-if get(g:, 'enterless_bindn_lower', 1)
-    let s:bindn = s:bindn+s:lower
-endif
-if get(g:, 'enterless_bindn_upper', 1)
-    let s:bindn = s:bindn+s:upper
-endif
-if get(g:, 'enterless_bindn_special', 1)
-    let s:bindn = s:bindn+s:upper
-endif
-for s:char in s:bindn
-    exec 'nmap <nowait><buffer><silent> '.s:char.'<plug>(enterless_'.s:char.')'
-endfor
-
-let s:bindi = []
-if get(g:, 'enterless_bindi_lower', 1)
-    let s:bindi = s:bindi+s:lower
-endif
-if get(g:, 'enterless_bindi_upper', 1)
-    let s:bindi = s:bindi+s:upper
-endif
-if get(g:, 'enterless_bindi_special', 1)
-    let s:bindi = s:bindi+s:upper
-endif
-for s:char in s:bindi
-    exec 'imap <nowait><buffer><silent> '.s:char.'<esc><plug>(enterless_'.s:char.')'
-endfor
+" let s:bindn = []
+" if get(g:, 'enterless_bindn_lower', 1)
+"     let s:bindn = s:bindn+s:lower
+" endif
+" if get(g:, 'enterless_bindn_upper', 0)
+"     let s:bindn = s:bindn+s:upper
+" endif
+" if get(g:, 'enterless_bindn_special', 1)
+"     let s:bindn = s:bindn+s:upper
+" endif
+" for s:char in s:bindn
+"     exec 'nmap <nowait><buffer><silent> '.s:char.'<plug>(enterless_'.s:char.')'
+" endfor
+"
+" let s:bindi = []
+" if get(g:, 'enterless_bindi_lower', 1)
+"     let s:bindi = s:bindi+s:lower
+" endif
+" if get(g:, 'enterless_bindi_upper', 1)
+"     let s:bindi = s:bindi+s:upper
+" endif
+" if get(g:, 'enterless_bindi_special', 1)
+"     let s:bindi = s:bindi+s:upper
+" endif
+" for s:char in s:bindi
+"     exec 'imap <nowait><buffer><silent> '.s:char.'<esc><plug>(enterless_'.s:char.')'
+" endfor
 
 nmap <nowait><buffer><silent> <plug>(enterless_open) 0"yy$:exec 'Enterless '.getreg("y")<cr>
 
