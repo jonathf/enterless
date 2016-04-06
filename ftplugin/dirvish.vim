@@ -54,7 +54,7 @@ if !get(g:, 'enterless_no_default_mapping', 0)
         exec 'imap <nowait><buffer><silent> '.s:char.' <esc><plug>(enterless_'.s:char.')'
     endfor
 
-    nmap <nowait><buffer><silent> <esc> <Plug>(enterless_quit)
+    nmap <nowait><buffer><silent> <f12> <Plug>(enterless_quit)
     nmap <nowait><buffer><silent> <cr> <plug>(enterless_open)
     nmap <nowait><buffer><silent> <bs> <plug>(enterless_back)
     nmap <nowait><buffer><silent> <f2> <plug>(enterless_reload)

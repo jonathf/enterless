@@ -127,10 +127,12 @@ function! enterless#clear()
 endfunction
 
 function! enterless#open(...) range abort
-  call enterless#clear()
   if a:0 == 1
     call dirvish#open(a:1)
   elseif a:0 == 2
     call dirvish#open(a:1, a:2)
+  endif
+  if isdirectory(expand("%"))
+    call enterless#clear()
   endif
 endfunction
