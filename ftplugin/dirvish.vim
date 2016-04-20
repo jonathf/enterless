@@ -13,8 +13,8 @@ for s:char in s:lower+s:upper+s:digits+s:special
     exec 'nmap <nowait><buffer><silent> <plug>(enterless_'.s:char.') :<C-U>.call enterless#forward('."'".s:char."'".')<cr>'
 endfor
 
-map <silent> <Plug>(enterless_quit) <plug>(dirvish_quit)
-nnoremap <nowait><buffer><silent> <plug>(enterless_back) :<C-U>-call enterless#backwards()<CR>
+nnoremap <nowait><buffer><silent> <Plug>(enterless_quit) :<C-U>.call enterless#quit()<cr>
+nnoremap <nowait><buffer><silent> <plug>(enterless_back) :<C-U>.call enterless#backwards()<CR>
 nnoremap <nowait><buffer><silent> <plug>(enterless_open) :<C-U>.call enterless#open("edit", 0)<CR>
 nnoremap <nowait><buffer><silent> <plug>(enterless_reload) :Enterless %<CR>
 

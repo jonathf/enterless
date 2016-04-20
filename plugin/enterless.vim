@@ -72,14 +72,16 @@ function! enterless#forward(char)
     return
   else
 
-    normal! my0"yy$
+    let s:yank1 = getreg('"')
+    let s:yank2 = getreg('*')
+    normal! my0y$
     let s:baseline = exists('g:enterless_ignorecase') &&
-          \g:enterless_ignorecase ? tolower(getreg("y")) : getreg("y")
+          \g:enterless_ignorecase ? tolower(getreg('"')) : getreg('"')
 
     for s:row in range(line(".")+1, line(".")+s:count-1)
 
-        normal! j0"yy$
-        let s:proposal = tolower(getreg("y"))
+        normal! j0y$
+        let s:proposal = tolower(getreg('"'))
         
         if len(s:baseline) < len(s:proposal)
             let s:proposal = s:proposal[:len(s:baseline)-1]
@@ -98,6 +100,9 @@ function! enterless#forward(char)
         echo s:baseline[len(s:path):]
         exec 'syntax match EnterlessSearch "'.s:ignorecase.'\%'.s:n_path.'c'.b:prevsearch.'"'
     endif
+
+    call setreg('"', s:yank1)
+    call setreg('*', s:yank2)
   endif
 
 endfunction
@@ -127,23 +132,28 @@ function! enterless#clear()
 endfunction
 
 function! enterless#open(...) range abort
+  let s:yank1 = getreg('"')
+  let s:yank2 = getreg('*')
   if a:0 == 1
     call dirvish#open(a:1)
   elseif a:0 == 2
     call dirvish#open(a:1, a:2)
   endif
   if isdirectory(expand("%"))
+    exec 'lcd '.expand("%")
     call enterless#clear()
   endif
+  call setreg('"', s:yank1)
+  call setreg('*', s:yank2)
 endfunction
 
 
 function! enterless#deletefile()
     call inputsave()
-    normal! 0"yy$
+    normal! 0y$
 
-    let path = substitute(getreg("y"), '\v[^\/]*[\/]?$', "" , "")
-    let name = getreg("y")[len(path):]
+    let path = substitute(getreg('"'), '\v[^\/]*[\/]?$', "" , "")
+    let name = getreg('"')[len(path):]
 
     let choice = confirm("Are you sure you want to delete '".
                 \name."'?", "&Yes\n&No", 2)
@@ -155,10 +165,10 @@ function! enterless#deletefile()
 endfunction
 
 function! enterless#renamefile()
-    normal! 0"yy$mY
+    normal! 0y$my
 
-    let path = substitute(getreg("y"), '\v[^\/]*[\/]?$', "" , "")
-    let name = getreg("y")[len(path):]
+    let path = substitute(getreg('"'), '\v[^\/]*[\/]?$', "" , "")
+    let name = getreg('"')[len(path):]
 
     call inputsave()
     let choice = input("Rename '".name."' :", "", "file")
@@ -169,14 +179,14 @@ function! enterless#renamefile()
     endif
 
     call enterless#open("%", "")
-    normal! 'Y
+    normal! 'y
 endfunction
 
 function! enterless#executescript()
 
-    normal! 0"yy$mY
-    let path = substitute(getreg("y"), '\v[^\/]*[\/]?$', "" , "")
-    let name = getreg("y")[len(path):]
+    normal! 0y$my
+    let path = substitute(getreg('"'), '\v[^\/]*[\/]?$', "" , "")
+    let name = getreg('"')[len(path):]
     call inputsave()
     let s:choice = input("Execute '".name."' :", "", "file")
     call inputrestore()
@@ -191,9 +201,9 @@ function! enterless#executescript()
 endfunction
 
 function! enterless#createfolder()
-    normal! 0"yy$mY
+    normal! 0y$my
 
-    let path = substitute(getreg("y"), '\v[^\/]*[\/]?$', "" , "")
+    let path = substitute(getreg('"'), '\v[^\/]*[\/]?$', "" , "")
 
     call inputsave()
     let choice = input("Create folder :", "", "file")
@@ -204,5 +214,12 @@ function! enterless#createfolder()
     endif
 
     call enterless#open("%", "")
-    normal! 'Y
+    normal! 'y
+endfunction
+
+function! enterless#quit()
+  exec "normal \<plug>(dirvish_quit)"
+  if &filetype == "dirvish"
+    enew
+  endif
 endfunction
