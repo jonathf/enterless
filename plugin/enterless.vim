@@ -73,7 +73,9 @@ function! enterless#forward(char)
   else
 
     let s:yank1 = getreg('"')
-    let s:yank2 = getreg('*')
+    try
+      let s:yank2 = getreg('*')
+    endtry
     normal! my0y$
     let s:baseline = exists('g:enterless_ignorecase') &&
           \g:enterless_ignorecase ? tolower(getreg('"')) : getreg('"')
@@ -82,7 +84,7 @@ function! enterless#forward(char)
 
         normal! j0y$
         let s:proposal = tolower(getreg('"'))
-        
+
         if len(s:baseline) < len(s:proposal)
             let s:proposal = s:proposal[:len(s:baseline)-1]
         endif
@@ -102,7 +104,9 @@ function! enterless#forward(char)
     endif
 
     call setreg('"', s:yank1)
-    call setreg('*', s:yank2)
+    try
+      call setreg('*', s:yank2)
+    endtry
   endif
 
 endfunction
@@ -133,7 +137,9 @@ endfunction
 
 function! enterless#open(...) range abort
   let s:yank1 = getreg('"')
-  let s:yank2 = getreg('*')
+  try
+    let s:yank2 = getreg('*')
+  endtry
   if a:0 == 1
     call dirvish#open(a:1)
   elseif a:0 == 2
@@ -144,7 +150,9 @@ function! enterless#open(...) range abort
     call enterless#clear()
   endif
   call setreg('"', s:yank1)
-  call setreg('*', s:yank2)
+  try
+    call setreg('*', s:yank2)
+  endtry
 endfunction
 
 
@@ -197,7 +205,6 @@ function! enterless#executescript()
         let s:args = s:args ." ". shellescape(s:choice)
     endfor
     exec "!" .shellescape(path.name)." ". s:args
-    
 endfunction
 
 function! enterless#createfolder()
