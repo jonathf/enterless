@@ -127,7 +127,6 @@ function! enterless#clear()
         \(!exists('g:_show_hidden') || (exists('g:_show_hidden') && !g:_show_hidden))
     silent! keeppatterns g@\v/\.[^\/]+/?$@d
   endif
-  sort i
   let b:prevsearch=""
   call s:clear_search()
 endfunction
