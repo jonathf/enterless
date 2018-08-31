@@ -126,6 +126,7 @@ function! enterless#clear()
   if exists('g:enterless_hide_hidden') && g:enterless_hide_hidden &&
         \(!exists('g:_show_hidden') || (exists('g:_show_hidden') && !g:_show_hidden))
     silent! keeppatterns g@\v/\.[^\/]+/?$@d
+    Dirvish %
   endif
   let b:prevsearch=""
   call s:clear_search()
