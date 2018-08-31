@@ -5,7 +5,7 @@ let g:loaded_enterless = 1
 
 command! -bar -nargs=? -complete=dir Enterless call enterless#open(<q-args>)
 
-let s:prevcountcache=[[], 0] 
+let s:prevcountcache=[[], 0]
 function! s:getcount()
     let key=[@/, b:changedtick]
     if s:prevcountcache[0]==#key
@@ -27,7 +27,6 @@ function! s:getcount()
 endfunction
 
 function! enterless#forward(char)
-
   if exists('g:enterless_hide_hidden') &&
         \g:enterless_hide_hidden
 
@@ -108,7 +107,6 @@ function! enterless#forward(char)
       call setreg('*', s:yank2)
     endtry
   endif
-
 endfunction
 
 function! enterless#backwards()
@@ -125,7 +123,6 @@ function! s:clear_search()
 endfunction
 
 function! enterless#clear()
-
   if exists('g:enterless_hide_hidden') && g:enterless_hide_hidden &&
         \(!exists('g:_show_hidden') || (exists('g:_show_hidden') && !g:_show_hidden))
     silent! keeppatterns g@\v/\.[^\/]+/?$@d
@@ -153,75 +150,6 @@ function! enterless#open(...) range abort
   try
     call setreg('*', s:yank2)
   endtry
-endfunction
-
-
-function! enterless#deletefile()
-    call inputsave()
-    normal! 0y$
-
-    let path = substitute(getreg('"'), '\v[^\/]*[\/]?$', "" , "")
-    let name = getreg('"')[len(path):]
-
-    let choice = confirm("Are you sure you want to delete '".
-                \name."'?", "&Yes\n&No", 2)
-    call inputrestore()
-    if choice == 1
-        exec '!mv '. shellescape(path.name) . ' /tmp'
-        normal! dd
-    endif
-endfunction
-
-function! enterless#renamefile()
-    normal! 0y$my
-
-    let path = substitute(getreg('"'), '\v[^\/]*[\/]?$', "" , "")
-    let name = getreg('"')[len(path):]
-
-    call inputsave()
-    let choice = input("Rename '".name."' :", "", "file")
-    call inputrestore()
-
-    if choice != ""
-        exec "!mv ". shellescape(path.name) ." ". shellescape(path.choice)
-    endif
-
-    call enterless#open("%", "")
-    normal! 'y
-endfunction
-
-function! enterless#executescript()
-
-    normal! 0y$my
-    let path = substitute(getreg('"'), '\v[^\/]*[\/]?$', "" , "")
-    let name = getreg('"')[len(path):]
-    call inputsave()
-    let s:choice = input("Execute '".name."' :", "", "file")
-    call inputrestore()
-
-    let s:choices = split(s:choice)
-    let s:args = ''
-    for s:choice in s:choices
-        let s:args = s:args ." ". shellescape(s:choice)
-    endfor
-    exec "!" .shellescape(path.name)." ". s:args
-endfunction
-
-function! enterless#createfolder()
-    normal! 0y$my
-
-    let path = substitute(getreg('"'), '\v[^\/]*[\/]?$', "" , "")
-
-    call inputsave()
-    let choice = input("Create folder :", "", "file")
-    call inputrestore()
-
-    if choice != ""
-        exec "!mkdir ". shellescape(path.choice)
-    endif
-
-    call enterless#open("%", "")
-    normal! 'y
 endfunction
 
 function! enterless#quit()
