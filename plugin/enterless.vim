@@ -132,6 +132,7 @@ function! enterless#open(...) range abort
     try
         let s:yank2 = getreg('*')
     endtry
+    let g:dirvish_mode=':sort i'
     if a:0 == 1
         call dirvish#open(a:1)
     elseif a:0 == 2

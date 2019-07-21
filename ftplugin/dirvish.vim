@@ -18,11 +18,6 @@ nnoremap <nowait><buffer><silent> <plug>(enterless_back) :<C-U>.call enterless#b
 nnoremap <nowait><buffer><silent> <plug>(enterless_open) :<C-U>.call enterless#open("edit", 0)<CR>
 nnoremap <nowait><buffer><silent> <plug>(enterless_reload) :Enterless %<CR>
 
-nnoremap <nowait><buffer><silent> <plug>(enterless_deletefile) :<C-U>.call enterless#deletefile()<CR>
-nnoremap <nowait><buffer><silent> <plug>(enterless_renamefile) :<C-U>.call enterless#renamefile()<CR>
-nnoremap <nowait><buffer><silent> <plug>(enterless_executescript) :<C-U>.call enterless#executescript()<CR>
-nnoremap <nowait><buffer><silent> <plug>(enterless_createfolder) :<C-U>.call enterless#createfolder()<CR>
-
 
 let s:bind = []
 if get(g:, 'enterless_bindn_lower', 1)
@@ -60,13 +55,8 @@ endfor
 
 if !get(g:, 'enterless_no_default_mapping', 0)
 
-    nmap <nowait><buffer><silent> <f12> <Plug>(enterless_quit)
+    nmap <nowait><buffer><silent> <esc> <Plug>(enterless_quit)
     nmap <nowait><buffer><silent> <cr> <plug>(enterless_open)
     nmap <nowait><buffer><silent> <bs> <plug>(enterless_back)
     nmap <nowait><buffer><silent> <f2> <plug>(enterless_reload)
-
-    nmap <buffer><nowait><silent> <c-d> <plug>(enterless_deletefile)
-    nmap <buffer><nowait><silent> <c-r> <plug>(enterless_renamefile)
-    nmap <buffer><nowait><silent> <c-e> <plug>(enterless_executescript)
-    nmap <buffer><nowait><silent> <c-f> <plug>(enterless_createfolder)
 endif
